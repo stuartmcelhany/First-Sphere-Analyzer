@@ -43,6 +43,8 @@ following describes the usage of ***run.py*** line-by-line:
    - **framesForRMSD** (*optional*, default=100):
                         integer that specifies the number of frames between each 
                         redetermination of the optimal ideal coordinate permutation*
+   - **binSize** (*optional*, default=0.05):
+                        float of the size of bins (in Angstroms) when calculating the RDF. Smaller bin sizes make the average ligand-ion distance more accurate
    - **startFrame** (*optional*, default=first frame):
                         integer that specifies on which frame to begin analysis
    - **endFrame** (*optional*, default=last frame):
@@ -149,10 +151,28 @@ following describes the usage of ***run.py*** line-by-line:
   ex. if the user specifies `outputFile` to be 'La-AIMD', then the file 
   will be named: 'La-AIMD-RMSDs.csv'
 
-- line 22:   `outputIdealGeometries()` function outputs the idealized geometries as .xyz files.
+- line 22:   `outputIdealGeometries('')` function outputs the idealized geometries as .xyz files.
             The program will output one of each type of geometry depending on the coordination 
-            number and average distance used.
+            number and average distance used. If there is a subfolder that the user would like
+            these saved to, the user can specify a subdirectory name in quotes as a function parameter
+            
+    ex. If you are working in a directory called 'Test' and have a subdirectory called 'Output' where you would like to save the geometries, then line 22 should say `outputIdealGeometries('Output')`
             
   ex. if the program used a coordination number of 8 and an average distance of 2.3, 
   the outputted files will be square-antiprism.xyz, cubic.xyz, bicapped-trigonal-
   antiprism.xyz, etc. all with average distance 2.3
+  
+## Examples
+Example usages are presented and discussed below:
+1. `traj = rmsd.Trajectory(ionID='Cr', elements=['O'])`
+
+  This example shows the bare minimum of required entries when analyzing a trajectory. The program will use Cr as the central ion and calculate the RDF using all O-CR distances. All optional specifications will be set to their default values as listed above.
+  
+2. `traj = rmsd.Trajectory(ionID='Cr', elements=['O'], boxSize=10., framesForRMSD=1000, binSize=0.05, startFrame=100)`
+
+  In this example, the program will use Cr as the central ion and calculate the RDF using all O-Cr distances starting from frame 100 till the end of the trajectory. Additionally, the optimal RMSD permutation will be computed every 1000 frames to speed up the program. Finally, the bin size used in the RDF histogram will be 0.05 Angstrom.
+  
+3. `traj = rmsd.Trajectory(ionID='La', elements=['O', 'N', 'S'], boxSize=10., framesForRMSD=1, binSize=0.02, startFrame=12000, endFrame=16000)`
+
+  In this example, the program will use La as the central ion and calculate the RDF using all O-La, N-La, and S-La distances from frame 12000 to frame 16000. Additionally, since `framesForRMSD` is specified as 1, the optimal RMSD will be calculated each frame, meaning the outputted RMSDs will be exact; though this would take a long time to run. Lastly, `binSize` is set at 0.02, so the histogram bin size for the RDF will be 0.02 Angstrom.
+  
