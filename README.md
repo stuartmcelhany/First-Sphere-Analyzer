@@ -43,9 +43,9 @@ following describes the usage of ***run.py*** line-by-line:
    - **framesForRMSD** (*optional*, default=100):
                         integer that specifies the number of frames between each 
                         redetermination of the optimal ideal coordinate permutation*
-   - **startFrame** (*optional*):
+   - **startFrame** (*optional*, default=first frame):
                         integer that specifies on which frame to begin analysis
-   - **endFrame** (*optional*):
+   - **endFrame** (*optional*, default=last frame):
                         integer that specifies the last frame to analyze. If no 
                         endFrame is specified, the program will analyze to the last
                         frame of the trajectory by default
