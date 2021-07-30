@@ -9,6 +9,8 @@ program:
 2. ***rmsd.py***
 3. ***geometries.py***
 
+***Note:*** The Python library, [NumPy](https://numpy.org/) is required.
+
 The first, ***run.py***, is the one that requires user interaction. The 
 following describes the usage of ***run.py*** line-by-line:
 - line 3: the variable `outputFile` stores a string that is used 
